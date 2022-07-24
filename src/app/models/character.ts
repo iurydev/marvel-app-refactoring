@@ -1,4 +1,6 @@
-export class Character {
+import { DeserializableModel } from './deserializable.model';
+
+export class Character implements DeserializableModel {
   id: number;
   name: string;
   description: string;
@@ -10,30 +12,15 @@ export class Character {
   events: Appearance;
   urls: URLCharacter[];
 
+  // Foi removida a lódica do CardComponent para gerar a URL da imagem do personagem.
+  // Agora é gerado um método para retornar esse dado, o qual é definido na instancia do objeto.
+  deserialize(input: any) {
+    Object.assign(this, input);
+    return this;
+  }
 
-  constructor(
-    id: number,
-    name: string,
-    description: string,
-    thumbnail: Thumbnail,
-    resourceURI: string,
-    comics: Appearance,
-    series: Appearance,
-    stories: Appearance,
-    events: Appearance,
-    urls: URLCharacter[]
-  ) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.thumbnail = thumbnail;
-    this.resourceURI = resourceURI;
-    this.comics = comics;
-    this.series = series;
-    this.stories = stories;
-    this.events = events;
-    this.urls = urls;
-
+  getPhotoUrl() {
+    return this.thumbnail.path + '.' + this.thumbnail.extension;
   }
 }
 

@@ -11,7 +11,4 @@ export class CardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {}
-  getCharacterPhoto(){
-    return this.character.thumbnail.path + "." + this.character.thumbnail.extension;
-  }
 }
