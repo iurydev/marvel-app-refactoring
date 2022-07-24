@@ -1,0 +1,22 @@
+
+@import '../../../sass/variables';
+
+.head-list{
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  color: $light;
+  background-color: $deep;
+  border-radius: 10px;
+}
+.tabs {
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.pagination {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
