@@ -1,7 +1,13 @@
 import { PaginationService } from './pagination.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, BehaviorSubject, Subject } from 'rxjs';
+import {
+  Observable,
+  map,
+  BehaviorSubject,
+  Subject,
+  firstValueFrom,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Character } from '../models/character';
 @Injectable({
@@ -17,30 +23,32 @@ export class CharacterService {
     private paginationService: PaginationService
   ) {
     this.paginationService.goSearch$.subscribe((refreshSearch) =>
-      this.getPersonagens(refreshSearch)
+      this.filterHeroes(refreshSearch)
     );
   }
 
-  getPersonagens(refreshSearch: boolean) {
-    this.refreshPagination(refreshSearch);
+  getPersonagensObs(): Observable<any> {
     const page = this.getPage('characters');
-    this.http
-      .get<any>(page)
-      .pipe(map((data: any) => data.data))
-      .subscribe((data: any) => {
-        if (refreshSearch) {
-          this.refreshSearch(data);
-        }
+    return this.http.get<any>(page).pipe(
+      map((data: any) => {
         // Organizando o array com os personagens (Boas práticas typeScript: Dados fortemente tipados)
-        var personagens: Character[] = data.results.map(
+        var personagens: Character[] = data.data.results.map(
           (personagem: Character) => {
-            return personagem = new Character().deserialize(personagem);
+            return (personagem = new Character().deserialize(personagem));
           }
         );
+        console.log('personagens', personagens);
+        // this.listCharacters$.next(personagens);
+        return personagens;
+      })
+    );
+  }
 
-        console.log('personagens', personagens)
-        this.listCharacters$.next(personagens);
-      });
+  async filterHeroes(refreshSearch: boolean) {
+    this.refreshPagination(refreshSearch);
+    const personagens = await firstValueFrom(this.getPersonagensObs());
+    console.log('personagens', personagens);
+    this.listCharacters$.next(personagens);
   }
 
   refreshPagination(refreshSearch: boolean) {
@@ -48,6 +56,7 @@ export class CharacterService {
       ? (this.pagination = 0)
       : (this.pagination = this.paginationService.getActualPage() * this.limit);
   }
+
   refreshSearch(data: any) {
     this.paginationService.setTotal(data.total);
   }

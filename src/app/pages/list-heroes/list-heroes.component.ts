@@ -1,19 +1,25 @@
 import { CharacterService } from './../../services/character.service';
-import { Observable } from 'rxjs';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Character } from 'src/app/models/character';
 
 @Component({
-  selector: 'app-list-heroes',
   templateUrl: './list-heroes.component.html',
-  styleUrls: ['./list-heroes.component.scss']
+  styleUrls: ['./list-heroes.component.scss'],
 })
 export class ListHeroesComponent implements OnInit {
-  list: any = [];
-  constructor(private characterService: CharacterService) {
-    this.characterService.listCharacters$.subscribe(data => this.list = data);
+  heroes: Character[];
+  constructor(
+    private characterService: CharacterService,
+    private router: ActivatedRoute
+  ) {
+    this.router.data.forEach((resolveData: any) => {
+      this.heroes = resolveData[0];
+    });
+    this.characterService.listCharacters$.subscribe((data) => {
+      this.heroes = data;
+    });
   }
 
-  ngOnInit(): void {
-    this.characterService.getPersonagens(true);
-  }
+  ngOnInit(): void {}
 }
