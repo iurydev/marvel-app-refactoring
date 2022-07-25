@@ -1,6 +1,14 @@
-<div class="search">
-  <div class="Input">
-    <input type="text" class="Input-text" placeholder="Pesquise seu herói" [(ngModel)]="characterService.filter">
-    <button (click)="setSearch()">search</button>
-  </div>
-</div>
+
+<form class="d-flex" role="search">
+  <input
+    class="form-control me-2"
+    type="search"
+    placeholder="Search"
+    aria-label="Search"
+    [(ngModel)]="characterService.filter"
+    [ngModelOptions]="{ standalone: true }"
+  />
+  <button class="btn btn-outline-secondary" type="submit" (click)="setSearch()">
+    Search
+  </button>
+</form>

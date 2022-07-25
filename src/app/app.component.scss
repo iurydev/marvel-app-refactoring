@@ -1,34 +1,7 @@
 @import '../sass/variables';
 
 
-#intro {
-  color: $light;
-  display: flex;
-  position: relative;
-  margin: 0 auto;
-  padding: 2rem;
-  width: calc(100% - 4rem);
-  max-width: 72rem;
-  justify-content: space-between;
-  z-index: 1;
-}
-
-
- #intro h1 {
-    font-size: 5rem;
-    line-height: 1;
-  }
-
-  #intro p {
-    font-size: 1.25rem;
-    font-style: italic;
-    margin-top: -0.25rem;
-    text-align: center;
-  }
-
-
 #main {
-  background-color: $light;
   position: relative;
   margin: 0 auto;
   width: calc(100% - 4rem);
