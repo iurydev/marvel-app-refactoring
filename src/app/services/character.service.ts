@@ -37,7 +37,6 @@ export class CharacterService {
             return (personagem = new Character().deserialize(personagem));
           }
         );
-        console.log('personagens', personagens);
         // this.listCharacters$.next(personagens);
         return personagens;
       })
@@ -47,7 +46,6 @@ export class CharacterService {
   async filterHeroes(refreshSearch: boolean) {
     this.refreshPagination(refreshSearch);
     const personagens = await firstValueFrom(this.getPersonagensObs());
-    console.log('personagens', personagens);
     this.listCharacters$.next(personagens);
   }
 
